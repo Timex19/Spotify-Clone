@@ -1,43 +1,65 @@
 export const initialState = {
     user: null,
     playlists: [],
+    spotify: null,
+    discover_weekly: null,
+    top_artists: null,
     playing: false,
     item: null,
-    // REMOVE after finished developing...
-    // token: 'BQBejUI8y3s9-fnu4q2Bd00JKH-eKeDZK2wUnGJ84q0HT5KKwEz-4YsC9gnY5JoujeSvku7xowqM7UK-nE5y7_E2hv1Qg6nrOFa982FgMVp92hmjKwiUbyLIdMGojW_Nxmbg1q9aWSoU8ZkiQlpVTBNj82immaYpbx6bovzy0SIjJIAwXSYH',
 };
 
 const reducer = (state, action) => {
     console.log(action);
+    switch (action.type) {
+        case "SET_USER":
+        return {
+            ...state,
+            user: action.user,
+        };
 
-    // Action -> type, [payload]
+        case "SET_PLAYING":
+        return {
+            ...state,
+            playing: action.playing,
+        };
 
-    switch(action.type) {
-        case 'SET_USER':
-            return {
-                ...state,
-                user: action.user,
-            };
-        case 'SET_TOKEN':
-            return {
-                ...state,
-                token: action.token,
-            };
+        case "SET_ITEM":
+        return {
+            ...state,
+            item: action.item,
+        };
 
-        case 'SET_PLAYLISTS':
-            return {
-                ...state,
-                playlists: action.playlists,
-            };
+        case "SET_DISCOVER_WEEKLY":
+        return {
+            ...state,
+            discover_weekly: action.discover_weekly,
+        };
 
-        case 'SET_DISCOVER_WEEKLY':
-            return {
-                ...state,
-                discover_weekly: action.discover_weekly,
-            };
+        case "SET_TOP_ARTISTS":
+        return {
+            ...state,
+            top_artists: action.top_artists,
+        };
 
+        case "SET_TOKEN":
+        return {
+            ...state,
+            token: action.token,
+        };
+
+        case "SET_SPOTIFY":
+        return {
+            ...state,
+            spotify: action.spotify,
+        };
+
+        case "SET_PLAYLISTS":
+        return {
+            ...state,
+            playlists: action.playlists,
+        };
         default:
-            return state;
+        return state;
     }
 };
 

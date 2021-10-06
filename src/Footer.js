@@ -1,42 +1,127 @@
-import React from 'react';
-import './Footer.css';
-import { PlayCircleOutline, SkipPrevious, SkipNext, Shuffle, Repeat, VolumeDown,   PlaylistPlay } from '@material-ui/icons';
-import { Slider, Grid } from '@material-ui/core';
+import React, { useEffect } from "react";
+import { useDataLayerValue } from "./DataLayer";
+import { PlayCircleOutline, SkipPrevious, SkipNext, Shuffle, Repeat, VolumeDown, PauseCircleOutline, PlaylistPlay } from "@material-ui/icons";
+import "./Footer.css";
+import { Grid, Slider } from "@material-ui/core";
 
-function Footer() {
-    return (
-        <div className="footer">
-            <div className="footer__left">
-                <img className="footer__albumLogo" src="https://themusicnetwork.com/wp-content/uploads/The-Kid-LAROI-and-Justin-Bieber-Stay.png" alt=""/>
-                <div className="footer__songInfo">
-                    <h4>STAY</h4>
-                    <p>The Kid LAROI</p>
-                </div>
-            </div>
+function Footer({ spotify }) {
+  const [{ item, playing }, dispatch] = useDataLayerValue();
 
-            <div className="footer__center">
-                <Shuffle className="footer__green" />
-                <SkipPrevious className="footer__icon" />
-                <PlayCircleOutline fontSize="large" className="footer__icon" />
-                <SkipNext className="footer__icon" />
-                <Repeat className="footer__green" />
-            </div>
+  useEffect(() => {
+    spotify.getMyCurrentPlaybackState().then((r) => {
+      console.log(r);
 
-            <div className="footer__right">
-                <Grid container spacing={2}>
-                    <Grid item>
-                        <PlaylistPlay />
-                    </Grid>
-                    <Grid item>
-                        <VolumeDown />
-                    </Grid>
-                    <Grid item xs>
-                        <Slider />
-                    </Grid>
-                </Grid>
-            </div>
-        </div>
-    );
+      dispatch({
+        type: "SET_PLAYING",
+        playing: r.is_playing,
+      });
+
+      dispatch({
+        type: "SET_ITEM",
+        item: r.item,
+      });
+    });
+  }, [dispatch, spotify]);
+
+  const handlePlayPause = () => {
+    if (playing) {
+      spotify.pause();
+      dispatch({
+        type: "SET_PLAYING",
+        playing: false,
+      });
+    } else {
+      spotify.play();
+      dispatch({
+        type: "SET_PLAYING",
+        playing: true,
+      });
+    }
+  };
+
+  const skipNext = () => {
+    spotify.skipToNext();
+    spotify.getMyCurrentPlayingTrack().then((r) => {
+      dispatch({
+        type: "SET_ITEM",
+        item: r.item,
+      });
+      dispatch({
+        type: "SET_PLAYING",
+        playing: true,
+      });
+    });
+  };
+
+  const skipPrevious = () => {
+    spotify.skipToPrevious();
+    spotify.getMyCurrentPlayingTrack().then((r) => {
+      dispatch({
+        type: "SET_ITEM",
+        item: r.item,
+      });
+      dispatch({
+        type: "SET_PLAYING",
+        playing: true,
+      });
+    });
+  };
+
+  return (
+    <div className="footer">
+      <div className="footer__left">
+        <img
+          className="footer__albumLogo"
+          src={item?.album.images[0].url}
+          alt={item?.name}
+        />
+        {item ? (
+          <div className="footer__songInfo">
+            <h4>{item.name}</h4>
+            <p>{item.artists.map((artist) => artist.name).join(", ")}</p>
+          </div>
+        ) : (
+          <div className="footer__songInfo">
+            <h4>No song is playing</h4>
+            <p>...</p>
+          </div>
+        )}
+      </div>
+
+      <div className="footer__center">
+        <Shuffle className="footer__green" />
+        <SkipPrevious onClick={skipNext} className="footer__icon" />
+        {playing ? (
+          <PauseCircleOutline
+            onClick={handlePlayPause}
+            fontSize="large"
+            className="footer__icon"
+          />
+        ) : (
+          <PlayCircleOutline
+            onClick={handlePlayPause}
+            fontSize="large"
+            className="footer__icon"
+          />
+        )}
+        <SkipNext onClick={skipPrevious} className="footer__icon" />
+        <Repeat className="footer__green" />
+      </div>
+      <div className="footer__right">
+        <Grid container spacing={2}>
+          <Grid item>
+            <PlaylistPlay />
+          </Grid>
+          <Grid item>
+            <VolumeDown />
+          </Grid>
+          <Grid item xs>
+            <Slider aria-labelledby="continuous-slider" />
+          </Grid>
+        </Grid>
+      </div>
+    </div>
+  );
 }
 
 export default Footer;

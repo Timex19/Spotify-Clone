@@ -2,7 +2,9 @@
 // documentation/web-playback-sdk/quick-start/#
 
 export const authEndpoint = "https://accounts.spotify.com/authorize";
-const redirectUri = "https://unruffled-lamarr-ddabcb.netlify.app/";
+// Replace with your app's client ID, redirect URI and desired scopes
+
+const redirectUri = "http://localhost:3000/";
 const clientId = "f0ffa6707b6144fab073dc432318a2ee";
 
 const scopes = [

@@ -41,6 +41,9 @@
 
 .footer__songInfo > h4 {
     margin-bottom: 5px;
+    justify-content: center;
+    align-items: center;
+    width: 75px;
 }
 
 .footer__songInfo > p {
