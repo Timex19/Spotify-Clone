@@ -3,7 +3,7 @@
 <img align="center" alt="Spotify-App" src="https://github.com/Timex19/Spotify-clone/blob/main/assets/spotify-clone.png" width="526"/>
 <img align="center" alt="Spotify-App" src="https://github.com/Timex19/Spotify-clone/blob/main/assets/spotify-clone 2.png" width="530"/>
 
-### <a href="https://unruffled-lamarr-ddabcb.netlify.app/">LIVE DEMO</a>
+### <a href="https://react-spotify-web-app.netlify.app/">LIVE DEMO</a>
 
 ## Description of the Application
 
