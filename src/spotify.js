@@ -4,7 +4,7 @@
 export const authEndpoint = "https://accounts.spotify.com/authorize";
 // Replace with your app's client ID, redirect URI and desired scopes
 
-const redirectUri = "https://unruffled-lamarr-ddabcb.netlify.app/";
+const redirectUri = "https://react-spotify-web-app.netlify.app/";
 const clientId = "f0ffa6707b6144fab073dc432318a2ee";
 
 const scopes = [
